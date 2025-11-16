@@ -63,6 +63,22 @@
         .printable-field div {
           color: black !important;
         }
+        /* Hide "Empty" placeholder text in print */
+        .printable-field .empty-placeholder,
+        .printable-field .text-gray-400.italic {
+          display: none !important;
+          visibility: hidden !important;
+        }
+        /* Hide field labels (field.id tags) in print */
+        .printable-field .field-label-tag {
+          display: none !important;
+          visibility: hidden !important;
+        }
+        /* Hide resize handles in print */
+        .printable-field .resize-handle {
+          display: none !important;
+          visibility: hidden !important;
+        }
         /* Ensure RTL for all text fields in print */
         .printable-field[data-field-id="amountWords"],
         .printable-field[data-field-id="payee"],
