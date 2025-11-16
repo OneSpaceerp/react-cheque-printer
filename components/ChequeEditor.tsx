@@ -90,6 +90,7 @@ const DraggableField: React.FC<{
   return (
     <div
       className={fieldClassName}
+      data-field-id={field.id}
       style={{
         left: `${field.x}px`,
         top: `${field.y}px`,
@@ -108,7 +109,8 @@ const DraggableField: React.FC<{
     >
       <div className="w-full h-full overflow-hidden" style={{ 
         fontFamily: field.fontFamily,
-        direction: field.textAlign === 'right' ? 'rtl' : field.textAlign === 'left' ? 'ltr' : 'ltr'
+        direction: field.textAlign === 'right' ? 'rtl' : field.textAlign === 'left' ? 'ltr' : field.textAlign === 'center' ? 'ltr' : 'rtl',
+        textAlign: field.textAlign
       }}>
         {field.value || <span className="text-gray-400 italic">Empty</span>}
       </div>
