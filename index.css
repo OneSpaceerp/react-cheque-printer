@@ -1,0 +1,84 @@
+/* Global styles for React Cheque Printer */
+
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Field selection styles */
+.field-selected {
+  border-color: #3b82f6 !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+}
+
+.field-dragging {
+  opacity: 0.8;
+  cursor: grabbing !important;
+}
+
+/* Print preview mode */
+.preview-mode .printable-field {
+  border: 1px dashed #9ca3af !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Smooth transitions */
+.printable-field {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Arabic font support */
+.arabic-text {
+  font-family: 'Cairo', 'Arial', sans-serif;
+}
+
+/* Resize handle styling */
+.resize-handle {
+  background-color: #2563eb;
+  border: 1px solid #1e40af;
+  border-radius: 2px;
+}
+
+.resize-handle:hover {
+  background-color: #1d4ed8;
+}
+
+/* Scrollbar styling for better UX */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+

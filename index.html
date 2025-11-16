@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Cheque Printer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Roboto:wght@400;700&display=swap');
+      body {
+        font-family: 'Roboto', 'Cairo', sans-serif;
+      }
+
+      /* Styles to prepare the page for printing, activated by JS */
+      body.is-printing .no-print {
+        display: none !important;
+      }
+      body.is-printing .printable-container {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        background: none !important;
+      }
+       body.is-printing .print-area {
+        margin: 0 !important;
+      }
+
+      /* Print-specific styles for the actual print media */
+      @media print {
+        /* Hide everything by default */
+        body * {
+          visibility: hidden;
+        }
+        /* Then reveal the print area and its children */
+        .print-area, .print-area * {
+          visibility: visible;
+        }
+        .print-area {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+        .cheque-bg-image {
+          display: block !important;
+          opacity: 0.3;
+        }
+        .printable-field {
+          border: none !important;
+          background-color: transparent !important;
+          color: black !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+        }
+        .printable-field div {
+          color: black !important;
+        }
+        @page {
+          size: auto;
+          margin: 0mm;
+        }
+        body {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

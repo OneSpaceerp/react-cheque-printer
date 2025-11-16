@@ -1,0 +1,5 @@
+{
+  "name": "React Cheque Printer",
+  "description": "A web application to design and print Egyptian bank cheques with customizable templates. It supports multilingual input (English/Arabic), automatic amount-to-words conversion, and precise print calibration.",
+  "requestFramePermissions": []
+}
