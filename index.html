@@ -55,10 +55,30 @@
         }
         .printable-field {
           border: none !important;
+          border-width: 0 !important;
+          border-style: none !important;
+          border-color: transparent !important;
           background-color: transparent !important;
+          background: transparent !important;
           color: black !important;
           padding: 0 !important;
           box-shadow: none !important;
+          outline: none !important;
+        }
+        /* Override all field states in print - selected, dragging, etc. */
+        .printable-field.field-selected,
+        .printable-field.field-dragging,
+        .printable-field.border,
+        .printable-field.border-dashed,
+        .printable-field.border-blue-500 {
+          border: none !important;
+          border-width: 0 !important;
+          border-style: none !important;
+          border-color: transparent !important;
+          box-shadow: none !important;
+          outline: none !important;
+          background-color: transparent !important;
+          background: transparent !important;
         }
         .printable-field div {
           color: black !important;
