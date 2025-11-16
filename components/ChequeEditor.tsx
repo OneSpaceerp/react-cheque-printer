@@ -112,7 +112,7 @@ const DraggableField: React.FC<{
         direction: field.textAlign === 'right' ? 'rtl' : field.textAlign === 'left' ? 'ltr' : field.textAlign === 'center' ? 'ltr' : 'rtl',
         textAlign: field.textAlign
       }}>
-        {field.value || <span className="text-gray-400 italic">Empty</span>}
+        {field.value || <span className="text-gray-400 italic empty-placeholder">Empty</span>}
       </div>
       {!previewMode && field.isResizable && (
         <div
@@ -121,7 +121,7 @@ const DraggableField: React.FC<{
         />
       )}
       {!previewMode && isSelected && (
-        <div className="absolute -top-6 left-0 bg-blue-600 text-white text-xs px-2 py-1 rounded">
+        <div className="absolute -top-6 left-0 bg-blue-600 text-white text-xs px-2 py-1 rounded field-label-tag no-print">
           {field.id}
         </div>
       )}
@@ -142,7 +142,17 @@ export const ChequeEditor: React.FC<ChequeEditorProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (editorRef.current && !editorRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      // Don't deselect if clicking inside the editor
+      if (editorRef.current && editorRef.current.contains(target)) {
+        return;
+      }
+      // Don't deselect if clicking inside controls panel or other UI elements
+      const clickedElement = target as HTMLElement;
+      const isInControlsPanel = clickedElement.closest('.no-print') !== null;
+      const isInFormControl = clickedElement.closest('input, select, textarea, button') !== null;
+      
+      if (!isInControlsPanel && !isInFormControl && editorRef.current && !editorRef.current.contains(target)) {
         onFieldSelect?.(null);
       }
     };
