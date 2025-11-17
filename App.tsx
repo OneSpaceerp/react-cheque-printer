@@ -53,10 +53,25 @@ const App: React.FC = () => {
     const handleAfterPrint = () => {
       document.body.classList.remove('is-printing');
       setIsPrinting(false);
+      // Remove print offset styles after printing
+      const printArea = document.querySelector('.print-area');
+      if (printArea) {
+        (printArea as HTMLElement).style.removeProperty('margin-top');
+        (printArea as HTMLElement).style.removeProperty('margin-left');
+      }
     };
 
     if (isPrinting) {
       document.body.classList.add('is-printing');
+      
+      // Apply print offset directly to print-area as inline styles (works in print)
+      const printArea = document.querySelector('.print-area') as HTMLElement;
+      if (printArea) {
+        const mmToPx = (mm: number) => mm * 3.7795275591;
+        printArea.style.marginTop = `${mmToPx(printOffset.y)}px`;
+        printArea.style.marginLeft = `${mmToPx(printOffset.x)}px`;
+      }
+      
       window.addEventListener('afterprint', handleAfterPrint);
       // Timeout to allow styles to apply before print dialog opens
       const timer = setTimeout(() => {
@@ -70,7 +85,7 @@ const App: React.FC = () => {
         document.body.classList.remove('is-printing');
       };
     }
-  }, [isPrinting]);
+  }, [isPrinting, printOffset]);
 
   const selectedBank = banksData.find(b => b.id === selectedBankId);
   const selectedTemplate = selectedBank?.templates.find(t => t.id === selectedTemplateId);
