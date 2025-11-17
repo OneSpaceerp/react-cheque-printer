@@ -176,8 +176,10 @@ export const ChequeEditor: React.FC<ChequeEditorProps> = ({
   const mmToPx = (mm: number) => mm * 3.7795275591;
 
   const printStyle = {
-    transform: `translate(${mmToPx(printOffset.x)}px, ${mmToPx(printOffset.y)}px)`
-  };
+    transform: `translate(${mmToPx(printOffset.x)}px, ${mmToPx(printOffset.y)}px)`,
+    '--print-offset-x': `${mmToPx(printOffset.x)}px`,
+    '--print-offset-y': `${mmToPx(printOffset.y)}px`,
+  } as React.CSSProperties;
 
   return (
     <div className={`printable-container flex-1 p-8 bg-gray-200 dark:bg-gray-900 overflow-auto ${previewMode ? 'preview-mode' : ''}`}>
