@@ -181,11 +181,18 @@ export const ChequeEditor: React.FC<ChequeEditorProps> = ({
     '--print-offset-y': `${mmToPx(printOffset.y)}px`,
   } as React.CSSProperties;
 
+  // Data attributes as fallback if CSS vars don't work in print
+  const printAreaProps = {
+    'data-print-offset-x': mmToPx(printOffset.x),
+    'data-print-offset-y': mmToPx(printOffset.y),
+  };
+
   return (
     <div className={`printable-container flex-1 p-8 bg-gray-200 dark:bg-gray-900 overflow-auto ${previewMode ? 'preview-mode' : ''}`}>
       <div 
         className="print-area mx-auto"
         style={printStyle}
+        {...printAreaProps}
       >
         <div
           ref={editorRef}
