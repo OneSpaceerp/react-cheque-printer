@@ -33,9 +33,11 @@
 
       /* Print-specific styles for the actual print media */
       @media print {
-        /* Hide everything by default */
-        body * {
+        /* Hide body by default - matching reference site approach */
+        body {
           visibility: hidden;
+          margin: 0;
+          padding: 0;
         }
         /* Then reveal the print area and its children */
         .print-area, .print-area * {
@@ -47,6 +49,24 @@
           top: 0;
           width: 100%;
           height: 100%;
+          margin: 0 !important;
+        }
+        /* Ensure print container is visible */
+        .printable-container {
+          visibility: visible;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          padding: 0 !important;
+          margin: 0 !important;
+          background: white !important;
+          overflow: visible !important;
+        }
+        /* Remove shadow from cheque container in print */
+        .print-area > div {
+          box-shadow: none !important;
         }
         /* Hide the cheque background image completely in print */
         .cheque-bg-image {
@@ -64,6 +84,16 @@
           padding: 0 !important;
           box-shadow: none !important;
           outline: none !important;
+        }
+        /* Hide empty fields completely in print */
+        .printable-field .empty-placeholder {
+          display: none !important;
+          visibility: hidden !important;
+        }
+        /* Hide empty fields in print */
+        .printable-field.field-empty {
+          display: none !important;
+          visibility: hidden !important;
         }
         /* Override all field states in print - selected, dragging, etc. */
         .printable-field.field-selected,
@@ -124,10 +154,6 @@
         @page {
           size: auto;
           margin: 0mm;
-        }
-        body {
-          margin: 0;
-          padding: 0;
         }
       }
     </style>
