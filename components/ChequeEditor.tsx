@@ -79,7 +79,10 @@ const DraggableField: React.FC<{
     };
   }, [dragAction, field, onUpdate, parentRef]);
 
+  const isEmpty = !field.value || field.value.trim() === '';
   const fieldClassName = `absolute select-none p-1 border border-dashed printable-field ${
+    isEmpty ? 'field-empty' : ''
+  } ${
     previewMode 
       ? 'border-gray-400 bg-white bg-opacity-90' 
       : isSelected 
