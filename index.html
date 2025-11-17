@@ -81,15 +81,16 @@
           height: auto !important;
           padding: 0 !important;
           display: block !important;
-          /* Remove transform in print - use margins instead */
+          /* CRITICAL: Remove transform completely in print - it breaks rendering */
           transform: none !important;
-          /* Apply print offset via margins using CSS variables */
-          margin-top: var(--print-offset-y, 0) !important;
-          margin-left: var(--print-offset-x, 0) !important;
-          margin-right: 0 !important;
-          margin-bottom: 0 !important;
+          -webkit-transform: none !important;
+          -moz-transform: none !important;
+          -ms-transform: none !important;
+          -o-transform: none !important;
+          /* Margin will be set via inline styles from JavaScript for print offset */
+          /* This ensures it works in print media */
         }
-        /* Ensure the cheque container is properly sized */
+        /* Ensure the cheque container is properly sized and visible */
         .print-area > div {
           box-shadow: none !important;
           position: relative !important;
@@ -101,8 +102,8 @@
           display: block !important;
           visibility: visible !important;
           overflow: visible !important;
-          /* Ensure dimensions are preserved from inline styles */
-          /* Don't override width/height - let inline styles work */
+          /* CRITICAL: Ensure dimensions are preserved from inline styles */
+          /* Don't override width/height - they come from template.width/height */
         }
         /* Hide the cheque background image completely in print */
         .cheque-bg-image {
@@ -195,12 +196,18 @@
         .printable-field:not(.field-empty) > div::after {
           display: none !important;
         }
-        /* Ensure all text nodes are visible */
-        .printable-field:not(.field-empty) > div,
-        .printable-field:not(.field-empty) > div * {
+        /* Ensure all text nodes are visible - FIX: text nodes need inline, not block */
+        .printable-field:not(.field-empty) > div {
           color: black !important;
           visibility: visible !important;
           display: block !important;
+          opacity: 1 !important;
+        }
+        /* Text content inside divs should be inline */
+        .printable-field:not(.field-empty) > div * {
+          color: black !important;
+          visibility: visible !important;
+          display: inline !important;
           opacity: 1 !important;
         }
         /* Force text rendering - ensure text nodes are not hidden */
@@ -301,7 +308,19 @@
         }
         @page {
           size: A4 landscape;
-          margin: 0mm;
+          margin: 10mm;
+        }
+        /* Ensure content starts at top of page */
+        .printable-container {
+          page-break-inside: avoid !important;
+        }
+        .print-area {
+          page-break-inside: avoid !important;
+        }
+        /* Ensure cheque container doesn't break across pages */
+        .print-area > div {
+          page-break-inside: avoid !important;
+          page-break-after: avoid !important;
         }
       }
     </style>
