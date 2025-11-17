@@ -33,18 +33,17 @@
 
       /* Print-specific styles for the actual print media */
       @media print {
-        /* Hide body by default - matching reference site approach */
+        /* Hide controls panel and other UI elements */
+        .no-print {
+          display: none !important;
+          visibility: hidden !important;
+        }
+        /* Position the print container */
         body {
-          visibility: hidden;
           margin: 0;
           padding: 0;
         }
-        /* Ensure root and print container are visible first */
-        #root {
-          visibility: visible !important;
-        }
         .printable-container {
-          visibility: visible !important;
           position: absolute;
           top: 0;
           left: 0;
@@ -54,13 +53,6 @@
           margin: 0 !important;
           background: white !important;
           overflow: visible !important;
-        }
-        /* Then reveal the print area and ALL its children */
-        .print-area,
-        .print-area *,
-        .print-area *::before,
-        .print-area *::after {
-          visibility: visible !important;
         }
         .print-area {
           position: absolute;
@@ -73,13 +65,6 @@
         /* Remove shadow from cheque container in print */
         .print-area > div {
           box-shadow: none !important;
-        }
-        /* Ensure all text elements are visible */
-        .printable-field,
-        .printable-field *,
-        .printable-field div,
-        .printable-field span {
-          visibility: visible !important;
         }
         /* Hide the cheque background image completely in print */
         .cheque-bg-image {
@@ -97,6 +82,8 @@
           padding: 0 !important;
           box-shadow: none !important;
           outline: none !important;
+          visibility: visible !important;
+          display: block !important;
         }
         /* Hide empty fields completely in print */
         .printable-field .empty-placeholder {
@@ -114,7 +101,9 @@
           visibility: visible !important;
           position: absolute !important;
         }
-        .printable-field:not(.field-empty) * {
+        .printable-field:not(.field-empty),
+        .printable-field:not(.field-empty) *,
+        .printable-field:not(.field-empty) * * {
           visibility: visible !important;
         }
         /* Ensure the inner div with text is visible */
@@ -122,6 +111,16 @@
           display: block !important;
           visibility: visible !important;
           color: black !important;
+          width: 100% !important;
+          height: 100% !important;
+          opacity: 1 !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        /* Make sure text content is rendered - target the field container */
+        .printable-field:not(.field-empty) {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
         }
         /* Override all field states in print - selected, dragging, etc. */
         .printable-field.field-selected,
@@ -141,12 +140,21 @@
         .printable-field div {
           color: black !important;
           visibility: visible !important;
+          display: block !important;
+          opacity: 1 !important;
         }
         /* Ensure text content is visible */
         .printable-field span,
-        .printable-field div span {
+        .printable-field div span,
+        .printable-field div * {
           color: black !important;
           visibility: visible !important;
+          display: inline !important;
+          opacity: 1 !important;
+        }
+        /* Ensure text nodes are visible - target direct text content */
+        .printable-field:not(.field-empty) {
+          opacity: 1 !important;
         }
         /* Hide "Empty" placeholder text in print */
         .printable-field .empty-placeholder,
