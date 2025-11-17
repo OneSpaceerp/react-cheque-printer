@@ -65,11 +65,17 @@ const App: React.FC = () => {
       document.body.classList.add('is-printing');
       
       // Apply print offset directly to print-area as inline styles (works in print)
+      // This positions content relative to top-left corner of the page
       const printArea = document.querySelector('.print-area') as HTMLElement;
       if (printArea) {
         const mmToPx = (mm: number) => mm * 3.7795275591;
-        printArea.style.marginTop = `${mmToPx(printOffset.y)}px`;
-        printArea.style.marginLeft = `${mmToPx(printOffset.x)}px`;
+        // Apply vertical and horizontal offsets as margins
+        // These work in print media unlike transforms
+        // Set with !important via setProperty to override any CSS
+        printArea.style.setProperty('margin-top', `${mmToPx(printOffset.y)}px`, 'important');
+        printArea.style.setProperty('margin-left', `${mmToPx(printOffset.x)}px`, 'important');
+        printArea.style.setProperty('margin-right', '0', 'important');
+        printArea.style.setProperty('margin-bottom', '0', 'important');
       }
       
       window.addEventListener('afterprint', handleAfterPrint);
