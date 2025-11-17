@@ -91,6 +91,10 @@
           border-width: 0 !important;
           border-style: none !important;
           border-color: transparent !important;
+          border-left: none !important;
+          border-right: none !important;
+          border-top: none !important;
+          border-bottom: none !important;
           background-color: transparent !important;
           background: transparent !important;
           color: black !important;
@@ -125,6 +129,19 @@
           visibility: visible !important;
           opacity: 1 !important;
           color: black !important;
+          background-color: transparent !important;
+          background: transparent !important;
+        }
+        /* Override Tailwind classes that might hide content */
+        .printable-field:not(.field-empty) .overflow-hidden {
+          overflow: visible !important;
+        }
+        /* Ensure text content is explicitly black and visible */
+        .printable-field:not(.field-empty) > div,
+        .printable-field:not(.field-empty) > div > * {
+          color: #000000 !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
         }
         /* Ensure the inner div with text is visible and properly styled */
         .printable-field:not(.field-empty) > div {
@@ -133,15 +150,21 @@
           color: black !important;
           width: 100% !important;
           height: 100% !important;
+          min-height: auto !important;
           opacity: 1 !important;
           -webkit-print-color-adjust: exact !important;
           print-color-adjust: exact !important;
           overflow: visible !important;
+          overflow-x: visible !important;
+          overflow-y: visible !important;
           white-space: normal !important;
           text-overflow: clip !important;
           -webkit-font-smoothing: antialiased !important;
           -moz-osx-font-smoothing: grayscale !important;
           text-rendering: optimizeLegibility !important;
+          /* Force text to be visible - don't override font-size as it comes from inline styles */
+          line-height: normal !important;
+          text-align: inherit !important;
         }
         /* Ensure text nodes inside the div are visible */
         .printable-field:not(.field-empty) > div::before,
@@ -157,24 +180,37 @@
           opacity: 1 !important;
         }
         /* Force text rendering - ensure text nodes are not hidden */
+        /* Note: Don't override font-size, font-weight, font-family as they come from inline styles */
         .printable-field:not(.field-empty) {
-          font-size: inherit !important;
-          line-height: inherit !important;
+          line-height: normal !important;
+        }
+        /* Ensure font properties are inherited from parent (which has inline styles) */
+        .printable-field:not(.field-empty) > div {
+          line-height: normal !important;
         }
         /* Override all field states in print - selected, dragging, etc. */
         .printable-field.field-selected,
         .printable-field.field-dragging,
         .printable-field.border,
         .printable-field.border-dashed,
-        .printable-field.border-blue-500 {
+        .printable-field.border-blue-500,
+        .printable-field[class*="border-"] {
           border: none !important;
           border-width: 0 !important;
           border-style: none !important;
           border-color: transparent !important;
+          border-left: none !important;
+          border-right: none !important;
+          border-top: none !important;
+          border-bottom: none !important;
           box-shadow: none !important;
           outline: none !important;
           background-color: transparent !important;
           background: transparent !important;
+        }
+        /* Override Tailwind border classes */
+        .printable-field[class*="border"] {
+          border: none !important;
         }
         /* Ensure all divs inside fields are visible */
         .printable-field:not(.field-empty) div {
@@ -189,10 +225,17 @@
         .printable-field:not(.field-empty) span:not(.empty-placeholder),
         .printable-field:not(.field-empty) div span:not(.empty-placeholder),
         .printable-field:not(.field-empty) div *:not(.empty-placeholder) {
-          color: black !important;
+          color: #000000 !important;
           visibility: visible !important;
           display: inline !important;
           opacity: 1 !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          background-color: transparent !important;
+        }
+        /* Ensure direct text nodes (text not in spans) are visible */
+        .printable-field:not(.field-empty) > div {
+          color: #000000 !important;
         }
         /* Hide "Empty" placeholder text in print */
         .printable-field .empty-placeholder,
