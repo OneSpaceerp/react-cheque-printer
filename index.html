@@ -82,13 +82,14 @@
           padding: 0 !important;
           display: block !important;
           /* CRITICAL: Remove transform completely in print - it breaks rendering */
-          transform: none !important;
           -webkit-transform: none !important;
           -moz-transform: none !important;
           -ms-transform: none !important;
           -o-transform: none !important;
+          transform: none !important;
           /* Margin will be set via inline styles from JavaScript for print offset */
           /* This ensures it works in print media */
+          /* Important: margin-top and margin-left are set inline by JavaScript */
         }
         /* Ensure the cheque container is properly sized and visible */
         .print-area > div {
@@ -110,16 +111,18 @@
           display: none !important;
           visibility: hidden !important;
         }
-        /* Base field styles */
-        .printable-field {
+        /* Base field styles - remove all borders completely */
+        .printable-field,
+        .printable-field * {
           border: none !important;
           border-width: 0 !important;
           border-style: none !important;
           border-color: transparent !important;
-          border-left: none !important;
-          border-right: none !important;
-          border-top: none !important;
-          border-bottom: none !important;
+          border-left: 0 !important;
+          border-right: 0 !important;
+          border-top: 0 !important;
+          border-bottom: 0 !important;
+          border-radius: 0 !important;
           background-color: transparent !important;
           background: transparent !important;
           color: black !important;
@@ -225,23 +228,28 @@
         .printable-field.border,
         .printable-field.border-dashed,
         .printable-field.border-blue-500,
-        .printable-field[class*="border-"] {
+        .printable-field.border-gray-400,
+        .printable-field[class*="border-"],
+        .printable-field[class*="border"] {
           border: none !important;
           border-width: 0 !important;
           border-style: none !important;
           border-color: transparent !important;
-          border-left: none !important;
-          border-right: none !important;
-          border-top: none !important;
-          border-bottom: none !important;
+          border-left: 0 !important;
+          border-right: 0 !important;
+          border-top: 0 !important;
+          border-bottom: 0 !important;
+          border-radius: 0 !important;
           box-shadow: none !important;
           outline: none !important;
           background-color: transparent !important;
           background: transparent !important;
         }
-        /* Override Tailwind border classes */
-        .printable-field[class*="border"] {
+        /* Override all Tailwind border classes */
+        .printable-field[class*="border"],
+        .printable-field[class*="border-"] {
           border: none !important;
+          border-width: 0 !important;
         }
         /* Ensure all divs inside fields are visible */
         .printable-field:not(.field-empty) div {
@@ -308,14 +316,18 @@
         }
         @page {
           size: A4 landscape;
-          margin: 10mm;
+          margin: 0mm;
         }
         /* Ensure content starts at top of page */
         .printable-container {
           page-break-inside: avoid !important;
+          margin: 0 !important;
+          padding: 0 !important;
         }
         .print-area {
           page-break-inside: avoid !important;
+          /* Print offset is applied via inline margin-top and margin-left from JavaScript */
+          /* This allows precise positioning from the top-left corner of the page */
         }
         /* Ensure cheque container doesn't break across pages */
         .print-area > div {
