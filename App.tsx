@@ -72,7 +72,10 @@ const App: React.FC = () => {
         // Apply vertical and horizontal offsets as margins
         // These work in print media unlike transforms
         // Set with !important via setProperty to override any CSS
-        printArea.style.setProperty('margin-top', `${mmToPx(printOffset.y)}px`, 'important');
+        // Add a small default offset to push content down slightly (adjusts for page margins/alignment)
+        const defaultVerticalOffset = 2; // 2mm default offset to push content down a little
+        const totalVerticalOffset = printOffset.y + defaultVerticalOffset;
+        printArea.style.setProperty('margin-top', `${mmToPx(totalVerticalOffset)}px`, 'important');
         printArea.style.setProperty('margin-left', `${mmToPx(printOffset.x)}px`, 'important');
         printArea.style.setProperty('margin-right', '0', 'important');
         printArea.style.setProperty('margin-bottom', '0', 'important');
