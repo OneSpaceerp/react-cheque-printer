@@ -320,8 +320,8 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({
               <div className='mb-2'>
                 <p className={`text-xs text-gray-600 dark:text-gray-400 ${isRTL ? 'text-right' : 'text-left'}`}>
                   {language === 'en' 
-                    ? 'Note: Offsets are relative to printable area (5mm page margins included)'
-                    : 'ملاحظة: الإزاحة نسبية للمنطقة القابلة للطباعة (حواف الصفحة 5 مم متضمنة)'}
+                    ? 'Note: Offsets are relative to printable area (8mm page margins + 5mm top padding)'
+                    : 'ملاحظة: الإزاحة نسبية للمنطقة القابلة للطباعة (حواف الصفحة 8 مم + حشو علوي 5 مم)'}
                 </p>
               </div>
               <div className='grid grid-cols-2 gap-2'>
