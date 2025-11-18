@@ -65,7 +65,8 @@ const App: React.FC = () => {
       document.body.classList.add('is-printing');
       
       // Apply print offset directly to print-area as inline styles (works in print)
-      // IMPORTANT: Page margins are 5mm to account for printer non-printable margins
+      // IMPORTANT: Page margins are 8mm to account for printer non-printable margins
+      // Cheque container has 5mm padding-top to prevent date field from being cut off
       // Offsets are relative to the printable area (inside the page margins)
       const printArea = document.querySelector('.print-area') as HTMLElement;
       if (printArea) {
@@ -73,8 +74,9 @@ const App: React.FC = () => {
         // Apply vertical and horizontal offsets as margins
         // These work in print media unlike transforms
         // Set with !important via setProperty to override any CSS
-        // Offsets are applied on top of the 5mm page margin
-        // So content starts at 5mm + offset from page edge
+        // Offsets are applied on top of the 8mm page margin
+        // So content starts at 8mm + offset from page edge
+        // The cheque container itself has 5mm padding-top for extra safety
         printArea.style.setProperty('margin-top', `${mmToPx(printOffset.y)}px`, 'important');
         printArea.style.setProperty('margin-left', `${mmToPx(printOffset.x)}px`, 'important');
         printArea.style.setProperty('margin-right', '0', 'important');
