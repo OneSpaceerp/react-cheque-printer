@@ -317,6 +317,13 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({
 
             {/* Print Offset */}
             <div className='space-y-3'>
+              <div className='mb-2'>
+                <p className={`text-xs text-gray-600 dark:text-gray-400 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  {language === 'en' 
+                    ? 'Note: Offsets are relative to printable area (5mm page margins included)'
+                    : 'ملاحظة: الإزاحة نسبية للمنطقة القابلة للطباعة (حواف الصفحة 5 مم متضمنة)'}
+                </p>
+              </div>
               <div className='grid grid-cols-2 gap-2'>
                 <div>
                   <label htmlFor="offset-x" className={`block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -433,6 +440,7 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({
         accept=".json"
         onChange={handleFileChange}
         className="hidden"
+        aria-label={t('importTemplate')}
       />
     </div>
   );
