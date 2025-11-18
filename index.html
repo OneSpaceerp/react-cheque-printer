@@ -316,7 +316,9 @@
         }
         @page {
           size: A4 landscape;
-          margin: 0mm;
+          /* Account for printer non-printable margins (typically 3-5mm on all sides) */
+          /* Setting 5mm margins ensures content is within printable area */
+          margin: 5mm;
         }
         /* Ensure content starts at top of page */
         .printable-container {
