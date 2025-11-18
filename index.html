@@ -103,6 +103,11 @@
           display: block !important;
           visibility: visible !important;
           overflow: visible !important;
+          /* Add padding to prevent top fields (like date) from being cut off */
+          padding-top: 5mm !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+          padding-bottom: 0 !important;
           /* CRITICAL: Ensure dimensions are preserved from inline styles */
           /* Don't override width/height - they come from template.width/height */
         }
@@ -317,8 +322,8 @@
         @page {
           size: A4 landscape;
           /* Account for printer non-printable margins (typically 3-5mm on all sides) */
-          /* Setting 5mm margins ensures content is within printable area */
-          margin: 5mm;
+          /* Increased to 8mm to ensure content, especially date field, is not cut off */
+          margin: 8mm;
         }
         /* Ensure content starts at top of page */
         .printable-container {
