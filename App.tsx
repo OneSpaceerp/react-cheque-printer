@@ -55,37 +55,28 @@ const App: React.FC = () => {
       setIsPrinting(false);
       // Remove print offset styles after printing
       const printArea = document.querySelector('.print-area');
-      const chequeContainer = printArea?.querySelector('> div') as HTMLElement;
-      if (chequeContainer) {
-        chequeContainer.style.removeProperty('top');
-        chequeContainer.style.removeProperty('left');
-      }
       if (printArea) {
         (printArea as HTMLElement).style.removeProperty('margin-top');
         (printArea as HTMLElement).style.removeProperty('margin-left');
+        (printArea as HTMLElement).style.removeProperty('margin-right');
+        (printArea as HTMLElement).style.removeProperty('margin-bottom');
       }
     };
 
     if (isPrinting) {
       document.body.classList.add('is-printing');
       
-      // Apply print offset directly to cheque container for precise positioning
-      // Match reference site exactly: offsets applied to cheque container from page edges
+      // Apply print offset to print-area as margins (works reliably in print)
+      // Match reference site: offsets applied as margins for precise positioning
       const printArea = document.querySelector('.print-area') as HTMLElement;
-      const chequeContainer = printArea?.querySelector('> div') as HTMLElement;
-      if (chequeContainer && printArea) {
+      if (printArea) {
         const mmToPx = (mm: number) => mm * 3.7795275591;
         
-        // Apply offsets directly from page edge (top and left)
-        // This matches reference site's exact positioning approach
+        // Apply offsets as margins on print-area
+        // This positions the entire cheque container, matching reference site
         // Offsets are in mm and applied as pixels
-        chequeContainer.style.setProperty('top', `${mmToPx(printOffset.y)}px`, 'important');
-        chequeContainer.style.setProperty('left', `${mmToPx(printOffset.x)}px`, 'important');
-      }
-      // Reset print-area margins to ensure proper positioning
-      if (printArea) {
-        printArea.style.setProperty('margin-top', '0', 'important');
-        printArea.style.setProperty('margin-left', '0', 'important');
+        printArea.style.setProperty('margin-top', `${mmToPx(printOffset.y)}px`, 'important');
+        printArea.style.setProperty('margin-left', `${mmToPx(printOffset.x)}px`, 'important');
         printArea.style.setProperty('margin-right', '0', 'important');
         printArea.style.setProperty('margin-bottom', '0', 'important');
       }
