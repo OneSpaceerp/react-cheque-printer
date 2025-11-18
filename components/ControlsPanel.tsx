@@ -316,32 +316,80 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({
             )}
 
             {/* Print Offset */}
-            <div className='grid grid-cols-2 gap-2'>
-              <div>
-                <label htmlFor="offset-x" className={`block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  {t('printOffsetX')}
-                </label>
-                <input 
-                  type="number" 
-                  id="offset-x" 
-                  step="0.1"
-                  value={printOffset.x} 
-                  onChange={e => setPrintOffset({...printOffset, x: parseFloat(e.target.value) || 0})} 
-                  className="w-full shadow-sm text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2" 
-                />
+            <div className='space-y-3'>
+              <div className='grid grid-cols-2 gap-2'>
+                <div>
+                  <label htmlFor="offset-x" className={`block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('printOffsetX')}
+                  </label>
+                  <input 
+                    type="number" 
+                    id="offset-x" 
+                    step="0.1"
+                    value={printOffset.x} 
+                    onChange={e => setPrintOffset({...printOffset, x: parseFloat(e.target.value) || 0})} 
+                    className="w-full shadow-sm text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2" 
+                  />
+                </div>
+                <div>
+                  <label htmlFor="offset-y" className={`block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('printOffsetY')}
+                  </label>
+                  <input 
+                    type="number" 
+                    id="offset-y" 
+                    step="0.1"
+                    value={printOffset.y} 
+                    onChange={e => setPrintOffset({...printOffset, y: parseFloat(e.target.value) || 0})} 
+                    className="w-full shadow-sm text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2" 
+                  />
+                </div>
               </div>
+              
+              {/* Fine Adjustment Buttons */}
               <div>
-                <label htmlFor="offset-y" className={`block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  {t('printOffsetY')}
+                <label className={`block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  {language === 'en' ? 'Fine Adjustment (0.5mm per click)' : 'ضبط دقيق (0.5 مم لكل نقرة)'}
                 </label>
-                <input 
-                  type="number" 
-                  id="offset-y" 
-                  step="0.1"
-                  value={printOffset.y} 
-                  onChange={e => setPrintOffset({...printOffset, y: parseFloat(e.target.value) || 0})} 
-                  className="w-full shadow-sm text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2" 
-                />
+                <div className='flex flex-col items-center gap-2'>
+                  {/* Move Up Button */}
+                  <button
+                    type="button"
+                    onClick={() => setPrintOffset({...printOffset, y: (printOffset.y || 0) - 0.5})}
+                    className="w-full px-3 py-2 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 rounded-md transition-colors"
+                    title={t('moveUp')}
+                  >
+                    ↑ {t('moveUp')}
+                  </button>
+                  {/* Left and Right Buttons */}
+                  <div className='grid grid-cols-2 gap-2 w-full'>
+                    <button
+                      type="button"
+                      onClick={() => setPrintOffset({...printOffset, x: (printOffset.x || 0) - 0.5})}
+                      className="px-3 py-2 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 rounded-md transition-colors"
+                      title={t('moveLeft')}
+                    >
+                      {isRTL ? '→' : '←'} {t('moveLeft')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPrintOffset({...printOffset, x: (printOffset.x || 0) + 0.5})}
+                      className="px-3 py-2 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 rounded-md transition-colors"
+                      title={t('moveRight')}
+                    >
+                      {isRTL ? '←' : '→'} {t('moveRight')}
+                    </button>
+                  </div>
+                  {/* Move Down Button */}
+                  <button
+                    type="button"
+                    onClick={() => setPrintOffset({...printOffset, y: (printOffset.y || 0) + 0.5})}
+                    className="w-full px-3 py-2 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 rounded-md transition-colors"
+                    title={t('moveDown')}
+                  >
+                    ↓ {t('moveDown')}
+                  </button>
+                </div>
               </div>
             </div>
 
