@@ -48,11 +48,11 @@
           background: white !important;
         }
         .printable-container {
-          position: absolute !important;
-          top: 0 !important;
-          left: 0 !important;
+          position: static !important;
+          top: auto !important;
+          left: auto !important;
           width: 100% !important;
-          height: 100% !important;
+          min-height: 100vh !important;
           padding: 0 !important;
           margin: 0 !important;
           background: white !important;
@@ -74,13 +74,12 @@
           display: block !important;
         }
         .print-area {
-          position: absolute !important;
+          position: relative !important;
           left: 0 !important;
           top: 0 !important;
           width: 100% !important;
-          height: 100% !important;
+          height: auto !important;
           padding: 0 !important;
-          margin: 0 !important;
           display: block !important;
           /* CRITICAL: Remove transform completely in print - it breaks rendering */
           -webkit-transform: none !important;
@@ -90,21 +89,22 @@
           transform: none !important;
           /* Margin will be set via inline styles from JavaScript for print offset */
           /* This ensures it works in print media */
-          /* Important: margin-top and margin-left are set inline by JavaScript */
         }
         /* Ensure the cheque container is properly sized and visible */
-        /* Match reference site: positioned with offsets, centered horizontally */
+        /* Match reference site: positioned with offsets */
         .print-area > div {
           box-shadow: none !important;
-          position: absolute !important;
-          margin: 0 !important;
+          position: relative !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
           background: white !important;
           display: block !important;
           visibility: visible !important;
           overflow: visible !important;
           padding: 0 !important;
-          /* Top and left will be set via inline styles from JavaScript */
-          /* This allows precise positioning matching reference site */
+          /* Top and left will be set via inline styles from JavaScript for offsets */
           /* CRITICAL: Ensure dimensions are preserved from inline styles */
           /* Don't override width/height - they come from template.width/height */
         }
