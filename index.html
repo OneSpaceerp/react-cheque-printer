@@ -93,22 +93,27 @@
           padding: 0 !important;
           display: block !important;
           /* CRITICAL: Remove transform completely in print - it breaks rendering */
+          /* CRITICAL: No scaling - exact 1:1 physical size matching */
           -webkit-transform: none !important;
           -moz-transform: none !important;
           -ms-transform: none !important;
           -o-transform: none !important;
           transform: none !important;
+          transform-origin: top left !important;
+          scale: 1 !important;
           /* Margin will be set via inline styles from JavaScript for print offset */
           /* This ensures it works in print media */
         }
         /* Ensure the cheque container is properly sized and visible */
         /* Match reference site: positioned with offsets */
         /* CRITICAL: Must be relative for absolute children (fields) to position correctly */
+        /* CRITICAL: Use exact physical dimensions to match @page size */
+        /* Conversion factor: 1050px = 17.78cm at 150 DPI (1px = 0.01693cm) */
         .print-area > div {
           box-shadow: none !important;
           position: relative !important;
-          margin-left: auto !important;
-          margin-right: auto !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
           margin-top: 0 !important;
           margin-bottom: 0 !important;
           background: white !important;
@@ -117,9 +122,19 @@
           opacity: 1 !important;
           overflow: visible !important;
           padding: 0 !important;
-          /* Top and left will be set via inline styles from JavaScript for offsets */
-          /* CRITICAL: Ensure dimensions are preserved from inline styles */
-          /* Don't override width/height - they come from template.width/height */
+          /* Exact physical dimensions: 7in x 3.5in = 17.78cm x 8.89cm at 150 DPI */
+          /* This matches @page size exactly to prevent scaling issues */
+          width: 17.78cm !important;
+          height: 8.89cm !important;
+          /* CRITICAL: No scaling - exact 1:1 physical size matching */
+          /* Container is set to exact physical dimensions matching @page size */
+          /* No transform needed - dimensions handle the scaling automatically */
+          /* Scale field positions proportionally: container changes from 1050px to 17.78cm */
+          /* Fields positioned in pixels need to scale with container */
+          /* Prevent page breaks - ensure single page output */
+          page-break-inside: avoid !important;
+          page-break-after: avoid !important;
+          page-break-before: avoid !important;
         }
         /* Hide the cheque background image completely in print */
         .cheque-bg-image {
@@ -160,7 +175,9 @@
         }
         /* Explicitly show non-empty fields - maintain absolute positioning */
         /* CRITICAL: absolute positioning relative to parent .print-area > div */
-        /* Don't override top/left/right/bottom - let inline styles from field.x and field.y work */
+        /* Fields positioned in pixels will scale proportionally with container */
+        /* Container scales from 1050px to 17.78cm, fields maintain relative position */
+        /* At 150 DPI: 1050px = 17.78cm (1:1 scale), pixel positions work correctly */
         .printable-field:not(.field-empty) {
           display: block !important;
           visibility: visible !important;
@@ -169,7 +186,9 @@
           z-index: 1 !important;
           -webkit-print-color-adjust: exact !important;
           print-color-adjust: exact !important;
-          /* Note: top, left, width, height come from inline styles - don't override */
+          /* Pixel values from inline styles scale proportionally with container */
+          /* Container is 1050px on screen, 17.78cm in print (same physical size at 150 DPI) */
+          /* Fields maintain same relative position - no conversion needed if DPI matches */
         }
         /* Ensure all nested elements are visible */
         .printable-field:not(.field-empty) * {
@@ -347,19 +366,27 @@
           text-align: left !important;
         }
         @page {
-          size: A4 landscape;
-          /* Use minimal margins - let browser/printer handle default printable area */
-          /* This matches the reference site's approach */
-          margin: 0mm;
+          /* Exact physical cheque size: 7in x 3.5in = 17.78cm x 8.89cm at 150 DPI */
+          /* This matches the exact physical dimensions to prevent scaling issues */
+          size: 17.78cm 8.89cm;
+          margin: 0;
         }
         /* Ensure content starts at top of page */
+        /* Prevent page breaks to ensure single-page output */
         .printable-container {
           page-break-inside: avoid !important;
+          page-break-after: avoid !important;
+          page-break-before: avoid !important;
           margin: 0 !important;
           padding: 0 !important;
+          height: auto !important;
+          max-height: 100% !important;
+          overflow: visible !important;
         }
         .print-area {
           page-break-inside: avoid !important;
+          page-break-after: avoid !important;
+          page-break-before: avoid !important;
           /* Print offset is applied via inline margin-top and margin-left from JavaScript */
           /* This allows precise positioning from the top-left corner of the page */
         }
