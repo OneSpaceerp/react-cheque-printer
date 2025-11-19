@@ -64,14 +64,25 @@
           display: block !important;
         }
         /* Override flex layouts that might hide content in print */
-        body > div,
-        body > div > div {
+        /* BUT preserve relative positioning for cheque container parent */
+        body > div {
           display: block !important;
           position: static !important;
         }
         /* Ensure the App component doesn't use flex in print */
         body > div > div.flex {
           display: block !important;
+          position: static !important;
+        }
+        /* Preserve relative positioning for cheque container - needed for absolute children */
+        body > div > div.flex .printable-container {
+          position: static !important;
+        }
+        body > div > div.flex .print-area {
+          position: relative !important;
+        }
+        body > div > div.flex .print-area > div {
+          position: relative !important;
         }
         .print-area {
           position: relative !important;
@@ -92,6 +103,7 @@
         }
         /* Ensure the cheque container is properly sized and visible */
         /* Match reference site: positioned with offsets */
+        /* CRITICAL: Must be relative for absolute children (fields) to position correctly */
         .print-area > div {
           box-shadow: none !important;
           position: relative !important;
@@ -102,6 +114,7 @@
           background: white !important;
           display: block !important;
           visibility: visible !important;
+          opacity: 1 !important;
           overflow: visible !important;
           padding: 0 !important;
           /* Top and left will be set via inline styles from JavaScript for offsets */
@@ -146,14 +159,17 @@
           visibility: hidden !important;
         }
         /* Explicitly show non-empty fields - maintain absolute positioning */
-        /* Don't override top/left - let inline styles from field.x and field.y work */
+        /* CRITICAL: absolute positioning relative to parent .print-area > div */
+        /* Don't override top/left/right/bottom - let inline styles from field.x and field.y work */
         .printable-field:not(.field-empty) {
           display: block !important;
           visibility: visible !important;
           position: absolute !important;
           opacity: 1 !important;
+          z-index: 1 !important;
           -webkit-print-color-adjust: exact !important;
           print-color-adjust: exact !important;
+          /* Note: top, left, width, height come from inline styles - don't override */
         }
         /* Ensure all nested elements are visible */
         .printable-field:not(.field-empty) * {
@@ -294,27 +310,41 @@
           display: none !important;
           visibility: hidden !important;
         }
-        /* Ensure RTL for all text fields in print */
+        /* Ensure RTL for Arabic text fields in print */
         .printable-field[data-field-id="amountWords"],
         .printable-field[data-field-id="payee"],
         .printable-field[data-field-id="signature"] {
           direction: rtl !important;
         }
-        .printable-field[data-field-id="amountWords"] div,
-        .printable-field[data-field-id="payee"] div,
-        .printable-field[data-field-id="signature"] div {
+        /* Amount words: center aligned */
+        .printable-field[data-field-id="amountWords"] div {
+          direction: rtl !important;
+          text-align: center !important;
+        }
+        /* Payee: right aligned */
+        .printable-field[data-field-id="payee"] div {
           direction: rtl !important;
           text-align: right !important;
+        }
+        /* Signature: left aligned */
+        .printable-field[data-field-id="signature"] div {
+          direction: rtl !important;
+          text-align: left !important;
         }
         /* Keep LTR for numeric fields like amountDigits and date */
         .printable-field[data-field-id="amountDigits"],
         .printable-field[data-field-id="date"] {
           direction: ltr !important;
         }
-        .printable-field[data-field-id="amountDigits"] div,
+        /* Amount digits: right aligned */
+        .printable-field[data-field-id="amountDigits"] div {
+          direction: ltr !important;
+          text-align: right !important;
+        }
+        /* Date: left aligned */
         .printable-field[data-field-id="date"] div {
           direction: ltr !important;
-          text-align: center !important;
+          text-align: left !important;
         }
         @page {
           size: A4 landscape;
