@@ -104,13 +104,18 @@
         /* Ensure the cheque container is properly sized and visible */
         /* Match reference site: positioned with offsets */
         /* CRITICAL: Must be relative for absolute children (fields) to position correctly */
-        /* Keep pixel dimensions from inline styles - browser will scale to fit A4 landscape */
-        /* Container maintains 1050px x 525px from inline styles for proper field positioning */
+        /* CRITICAL: Scale container from pixels to physical dimensions */
+        /* Cheque size: 7in x 3.5in = 17.78cm x 8.89cm at 150 DPI */
+        /* Container is 1050px x 525px (from inline styles) */
+        /* To match 1:1 physical size at print DPI, we need to scale */
+        /* At 96 DPI (typical print): 1050px = 27.78cm, but we want 17.78cm */
+        /* Scale factor: 17.78 / 27.78 = 0.64 */
+        /* Preserve pixel dimensions, scale to fit physical page size */
         .print-area > div {
           box-shadow: none !important;
           position: relative !important;
-          margin-left: auto !important;
-          margin-right: auto !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
           margin-top: 0 !important;
           margin-bottom: 0 !important;
           background: white !important;
@@ -119,10 +124,13 @@
           opacity: 1 !important;
           overflow: visible !important;
           padding: 0 !important;
-          /* Width and height come from inline styles (1050px x 525px) */
-          /* Don't override - preserve pixel dimensions for proper field scaling */
-          /* Browser will scale container proportionally to fit A4 landscape page */
-          /* Fields positioned in pixels will scale proportionally with container */
+          /* Keep pixel dimensions from inline styles (1050px x 525px) */
+          /* Don't override width/height - preserve pixel dimensions for field positioning */
+          /* Scale to match physical page size: 17.78cm / (1050px at 96 DPI in cm) */
+          /* 1050px at 96 DPI = 1050 / 96 * 2.54 = 27.78cm */
+          /* Scale = 17.78 / 27.78 = 0.64 */
+          transform: scale(0.64) !important;
+          transform-origin: top left !important;
           /* Prevent page breaks - ensure single page output */
           page-break-inside: avoid !important;
           page-break-after: avoid !important;
@@ -362,10 +370,10 @@
           text-align: left !important;
         }
         @page {
-          /* Use A4 landscape - standard paper size */
-          /* Browser will scale the cheque container to fit the page */
-          /* Container maintains pixel dimensions (1050px x 525px) for proper field scaling */
-          size: A4 landscape;
+          /* Exact cheque size: 7in x 3.5in = 17.78cm x 8.89cm */
+          /* This matches the container size to ensure 1:1 physical size matching */
+          /* Using exact dimensions prevents browser scaling issues */
+          size: 17.78cm 8.89cm;
           margin: 0;
         }
         /* Ensure content starts at top of page */
