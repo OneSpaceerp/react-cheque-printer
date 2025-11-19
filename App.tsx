@@ -68,15 +68,17 @@ const App: React.FC = () => {
       
       // Apply print offset to print-area as margins (works reliably in print)
       // Match reference site: offsets applied as margins for precise positioning
+      // CRITICAL: Convert mm offsets to cm for print media (matching physical dimensions)
       const printArea = document.querySelector('.print-area') as HTMLElement;
       if (printArea) {
-        const mmToPx = (mm: number) => mm * 3.7795275591;
+        // Convert mm to cm for print media (1mm = 0.1cm)
+        const mmToCm = (mm: number) => mm * 0.1;
         
-        // Apply offsets as margins on print-area
+        // Apply offsets as margins on print-area in cm
         // This positions the entire cheque container, matching reference site
-        // Offsets are in mm and applied as pixels
-        printArea.style.setProperty('margin-top', `${mmToPx(printOffset.y)}px`, 'important');
-        printArea.style.setProperty('margin-left', `${mmToPx(printOffset.x)}px`, 'important');
+        // Offsets are in mm, converted to cm for print media
+        printArea.style.setProperty('margin-top', `${mmToCm(printOffset.y)}cm`, 'important');
+        printArea.style.setProperty('margin-left', `${mmToCm(printOffset.x)}cm`, 'important');
         printArea.style.setProperty('margin-right', '0', 'important');
         printArea.style.setProperty('margin-bottom', '0', 'important');
       }
