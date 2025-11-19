@@ -93,27 +93,24 @@
           padding: 0 !important;
           display: block !important;
           /* CRITICAL: Remove transform completely in print - it breaks rendering */
-          /* CRITICAL: No scaling - exact 1:1 physical size matching */
           -webkit-transform: none !important;
           -moz-transform: none !important;
           -ms-transform: none !important;
           -o-transform: none !important;
           transform: none !important;
-          transform-origin: top left !important;
-          scale: 1 !important;
           /* Margin will be set via inline styles from JavaScript for print offset */
           /* This ensures it works in print media */
         }
         /* Ensure the cheque container is properly sized and visible */
         /* Match reference site: positioned with offsets */
         /* CRITICAL: Must be relative for absolute children (fields) to position correctly */
-        /* Keep pixel dimensions - let browser handle scaling to A4 landscape */
-        /* Container maintains 1050px x 525px from inline styles */
+        /* CRITICAL: Use exact physical dimensions matching @page size */
+        /* Conversion: 1050px at 150 DPI = 7in = 17.78cm, 525px = 3.5in = 8.89cm */
         .print-area > div {
           box-shadow: none !important;
           position: relative !important;
-          margin-left: auto !important;
-          margin-right: auto !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
           margin-top: 0 !important;
           margin-bottom: 0 !important;
           background: white !important;
@@ -122,9 +119,13 @@
           opacity: 1 !important;
           overflow: visible !important;
           padding: 0 !important;
-          /* Width and height come from inline styles (1050px x 525px) */
-          /* Don't override - preserve pixel dimensions for proper field scaling */
-          /* Browser will scale container to fit A4 landscape page */
+          /* Exact physical dimensions matching @page size */
+          /* This ensures 1:1 physical size matching at 150 DPI */
+          width: 17.78cm !important;
+          height: 8.89cm !important;
+          /* Fields positioned in pixels will scale proportionally */
+          /* Container: 1050px (screen) -> 17.78cm (print) */
+          /* At 150 DPI: perfect 1:1 match */
           /* Prevent page breaks - ensure single page output */
           page-break-inside: avoid !important;
           page-break-after: avoid !important;
@@ -364,9 +365,10 @@
           text-align: left !important;
         }
         @page {
-          /* Use A4 landscape - standard paper size */
-          /* Content will be positioned and scaled to fit cheque dimensions */
-          size: A4 landscape;
+          /* Exact physical cheque size: 7in x 3.5in = 17.78cm x 8.89cm at 150 DPI */
+          /* This matches the exact physical dimensions to prevent scaling issues */
+          /* Using exact dimensions ensures 1:1 physical size matching */
+          size: 17.78cm 8.89cm;
           margin: 0;
         }
         /* Ensure content starts at top of page */
