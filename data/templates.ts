@@ -6,10 +6,10 @@ const CHEQUE_WIDTH = 1050;
 const CHEQUE_HEIGHT = 525;
 
 const commonFields = {
-    payee: { id: 'payee', value: 'Example Payee Name', fontSize: 18, fontWeight: 'bold', textAlign: 'left', isEditable: true, isResizable: true, fontFamily: 'Cairo' },
-    amountWords: { id: 'amountWords', value: 'فقط ألفان وثلاثمائة وخمسة وأربعون جنيهاً مصرياً لا غير', fontSize: 16, fontWeight: 'normal', textAlign: 'right', isEditable: false, isResizable: true, fontFamily: 'Cairo' },
-    amountDigits: { id: 'amountDigits', value: '2345.00', fontSize: 20, fontWeight: 'bold', textAlign: 'center', isEditable: true, isResizable: true, fontFamily: 'Roboto' },
-    date: { id: 'date', value: new Date().toLocaleDateString('en-CA'), fontSize: 18, fontWeight: 'normal', textAlign: 'center', isEditable: true, isResizable: true, fontFamily: 'Roboto' },
+    payee: { id: 'payee', value: 'Example Payee Name', fontSize: 18, fontWeight: 'bold', textAlign: 'right', isEditable: true, isResizable: true, fontFamily: 'Cairo' },
+    amountWords: { id: 'amountWords', value: 'فقط ألفان وثلاثمائة وخمسة وأربعون جنيهاً مصرياً لا غير', fontSize: 16, fontWeight: 'normal', textAlign: 'center', isEditable: false, isResizable: true, fontFamily: 'Cairo' },
+    amountDigits: { id: 'amountDigits', value: '2345.00', fontSize: 20, fontWeight: 'bold', textAlign: 'right', isEditable: true, isResizable: true, fontFamily: 'Roboto' },
+    date: { id: 'date', value: new Date().toLocaleDateString('en-CA'), fontSize: 18, fontWeight: 'normal', textAlign: 'left', isEditable: true, isResizable: true, fontFamily: 'Roboto' },
     signature: { id: 'signature', value: '', x: 100, y: 350, width: 300, height: 60, fontSize: 16, fontWeight: 'normal', textAlign: 'left', isEditable: false, isResizable: true, fontFamily: 'Cairo' },
 } as const;
 
