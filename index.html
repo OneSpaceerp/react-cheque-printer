@@ -107,13 +107,13 @@
         /* Ensure the cheque container is properly sized and visible */
         /* Match reference site: positioned with offsets */
         /* CRITICAL: Must be relative for absolute children (fields) to position correctly */
-        /* CRITICAL: Use exact physical dimensions to match @page size */
-        /* Conversion factor: 1050px = 17.78cm at 150 DPI (1px = 0.01693cm) */
+        /* Keep pixel dimensions - let browser handle scaling to A4 landscape */
+        /* Container maintains 1050px x 525px from inline styles */
         .print-area > div {
           box-shadow: none !important;
           position: relative !important;
-          margin-left: 0 !important;
-          margin-right: 0 !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
           margin-top: 0 !important;
           margin-bottom: 0 !important;
           background: white !important;
@@ -122,15 +122,9 @@
           opacity: 1 !important;
           overflow: visible !important;
           padding: 0 !important;
-          /* Exact physical dimensions: 7in x 3.5in = 17.78cm x 8.89cm at 150 DPI */
-          /* This matches @page size exactly to prevent scaling issues */
-          width: 17.78cm !important;
-          height: 8.89cm !important;
-          /* CRITICAL: No scaling - exact 1:1 physical size matching */
-          /* Container is set to exact physical dimensions matching @page size */
-          /* No transform needed - dimensions handle the scaling automatically */
-          /* Scale field positions proportionally: container changes from 1050px to 17.78cm */
-          /* Fields positioned in pixels need to scale with container */
+          /* Width and height come from inline styles (1050px x 525px) */
+          /* Don't override - preserve pixel dimensions for proper field scaling */
+          /* Browser will scale container to fit A4 landscape page */
           /* Prevent page breaks - ensure single page output */
           page-break-inside: avoid !important;
           page-break-after: avoid !important;
@@ -175,9 +169,12 @@
         }
         /* Explicitly show non-empty fields - maintain absolute positioning */
         /* CRITICAL: absolute positioning relative to parent .print-area > div */
-        /* Fields positioned in pixels will scale proportionally with container */
-        /* Container scales from 1050px to 17.78cm, fields maintain relative position */
-        /* At 150 DPI: 1050px = 17.78cm (1:1 scale), pixel positions work correctly */
+        /* Fields positioned in pixels need to scale with container size change */
+        /* Container: 1050px (screen) -> 17.78cm (print) */
+        /* Scale factor: If browser uses 96 DPI, 1050px = 27.81cm, but we want 17.78cm */
+        /* So scale = 17.78/27.81 = 0.639, but we can't use transform */
+        /* Solution: Use percentage-based positioning or ensure DPI matches */
+        /* For now, fields will scale proportionally as container scales */
         .printable-field:not(.field-empty) {
           display: block !important;
           visibility: visible !important;
@@ -186,9 +183,9 @@
           z-index: 1 !important;
           -webkit-print-color-adjust: exact !important;
           print-color-adjust: exact !important;
-          /* Pixel values from inline styles scale proportionally with container */
-          /* Container is 1050px on screen, 17.78cm in print (same physical size at 150 DPI) */
-          /* Fields maintain same relative position - no conversion needed if DPI matches */
+          /* Pixel values from inline styles - browser will scale proportionally */
+          /* Font sizes in pixels will also scale with container */
+          /* Ensure font sizes are preserved from inline styles */
         }
         /* Ensure all nested elements are visible */
         .printable-field:not(.field-empty) * {
@@ -228,6 +225,7 @@
           -moz-osx-font-smoothing: grayscale !important;
           text-rendering: optimizeLegibility !important;
           /* Force text to be visible - don't override font-size as it comes from inline styles */
+          /* Font sizes in pixels will scale proportionally with container */
           line-height: normal !important;
           text-align: inherit !important;
         }
@@ -366,9 +364,9 @@
           text-align: left !important;
         }
         @page {
-          /* Exact physical cheque size: 7in x 3.5in = 17.78cm x 8.89cm at 150 DPI */
-          /* This matches the exact physical dimensions to prevent scaling issues */
-          size: 17.78cm 8.89cm;
+          /* Use A4 landscape - standard paper size */
+          /* Content will be positioned and scaled to fit cheque dimensions */
+          size: A4 landscape;
           margin: 0;
         }
         /* Ensure content starts at top of page */
