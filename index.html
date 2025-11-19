@@ -88,7 +88,7 @@
           position: relative !important;
           left: 0 !important;
           top: 0 !important;
-          width: 100% !important;
+          width: auto !important;
           height: auto !important;
           padding: 0 !important;
           display: block !important;
@@ -104,13 +104,11 @@
         /* Ensure the cheque container is properly sized and visible */
         /* Match reference site: positioned with offsets */
         /* CRITICAL: Must be relative for absolute children (fields) to position correctly */
-        /* CRITICAL: Scale container from pixels to physical dimensions */
+        /* CRITICAL: Set container to exact physical dimensions matching @page size */
         /* Cheque size: 7in x 3.5in = 17.78cm x 8.89cm at 150 DPI */
         /* Container is 1050px x 525px (from inline styles) */
-        /* To match 1:1 physical size at print DPI, we need to scale */
-        /* At 96 DPI (typical print): 1050px = 27.78cm, but we want 17.78cm */
-        /* Scale factor: 17.78 / 27.78 = 0.64 */
-        /* Preserve pixel dimensions, scale to fit physical page size */
+        /* Fields positioned in pixels will scale proportionally with container */
+        /* Browser will handle pixel-to-cm conversion at print DPI */
         .print-area > div {
           box-shadow: none !important;
           position: relative !important;
@@ -122,15 +120,15 @@
           display: block !important;
           visibility: visible !important;
           opacity: 1 !important;
-          overflow: visible !important;
+          overflow: hidden !important;
           padding: 0 !important;
-          /* Keep pixel dimensions from inline styles (1050px x 525px) */
-          /* Don't override width/height - preserve pixel dimensions for field positioning */
-          /* Scale to match physical page size: 17.78cm / (1050px at 96 DPI in cm) */
-          /* 1050px at 96 DPI = 1050 / 96 * 2.54 = 27.78cm */
-          /* Scale = 17.78 / 27.78 = 0.64 */
-          transform: scale(0.64) !important;
-          transform-origin: top left !important;
+          /* Exact physical dimensions matching @page size */
+          /* This ensures 1:1 physical size matching */
+          /* Fields positioned in pixels will scale proportionally */
+          width: 17.78cm !important;
+          height: 8.89cm !important;
+          /* No transform - let browser handle scaling naturally */
+          /* Transform is unreliable in print media and causes content to overflow */
           /* Prevent page breaks - ensure single page output */
           page-break-inside: avoid !important;
           page-break-after: avoid !important;
