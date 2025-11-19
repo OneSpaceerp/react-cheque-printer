@@ -14,9 +14,9 @@ const commonFields = {
 } as const;
 
 const createCIBWealthFields = (): Field[] => [
-    { ...commonFields.payee, x: 250, y: 180, width: 550, height: 40 },
-    { ...commonFields.amountWords, x: 150, y: 240, width: 650, height: 40 },
-    { ...commonFields.amountDigits, x: 840, y: 175, width: 170, height: 45 },
+    { ...commonFields.payee, x: 250, y: 120, width: 550, height: 40 },
+    { ...commonFields.amountWords, x: 150, y: 160, width: 650, height: 40 },
+    { ...commonFields.amountDigits, x: 840, y: 120, width: 170, height: 45 },
     { ...commonFields.date, x: 100, y: 90, width: 180, height: 40 },
     { ...commonFields.signature },
 ];
